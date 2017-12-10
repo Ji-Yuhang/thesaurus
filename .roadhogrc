@@ -1,0 +1,31 @@
+{
+  "entry": "src/index.js",
+  "env": {
+    "development": {
+      "extraBabelPlugins": [
+        "dva-hmr",
+        "transform-runtime",
+        ["import", { "libraryName": "antd", "style": "css" }]
+      ]
+    },
+    "production": {
+      "extraBabelPlugins": [
+        "transform-runtime",
+      ["import", { "libraryName": "antd", "style": "css" }]
+      ]
+    }
+  },
+  "proxy": {
+	  "/api": {
+            "target": "http://localhost:3000/api/",
+
+		  "changeOrigin": true,
+		  "pathRewrite": { "^/api" : "" }
+	  },
+	  "/shanbay": {
+                  "target": "https://api.shanbay.com/",
+      		  "changeOrigin": true,
+      		  "pathRewrite": { "^/shanbay" : "" }
+      	  }
+  }
+}
