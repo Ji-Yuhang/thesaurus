@@ -8,7 +8,8 @@ import {
 } from 'react-bootstrap';
 const Words = require('../files/queue_collins_1.json')
 const ThesaurusData = require('../files/thesaurus.json')
-console.log('ThesaurusData', ThesaurusData);
+const ShanbayData = require('../files/shanbay.json')
+console.log('ThesaurusData', ThesaurusData, ShanbayData);
 const wellHeight = 400;
 class Thesaurus extends React.Component {
   constructor(props) {
@@ -180,6 +181,15 @@ class Thesaurus extends React.Component {
     searchWord = searchWord || reviewWord
     console.log('local Store', shanbayStore, searchWord)
 
+    if (_.has(ShanbayData, searchWord)) {
+      let shanbay = ShanbayData[searchWord]
+      console.log('getShanbay from ShanbayData success,', ShanbayData,shanbay)
+
+      this.setState({
+        shanbay
+      })
+      return
+    }
     if (_.has(shanbayStore, searchWord)) {
       let shanbay = shanbayStore[searchWord]
       console.log('getShanbay from local Store success,', shanbayStore,shanbay)
@@ -270,7 +280,7 @@ class Thesaurus extends React.Component {
           </Row>
           <Row>
             <Col md={2}>音标</Col>
-            <Col md={10}><div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}><h2>{shanbay.pron}</h2></div></Col>
+            <Col md={10}><div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}><h2 dangerouslySetInnerHTML={{__html:shanbay.pron}}></h2></div></Col>
           </Row>
           <Row>
             <Col md={2}>解释</Col>
@@ -286,7 +296,7 @@ class Thesaurus extends React.Component {
           </Row>
           <Row>
             <Col md={2}>英英解释</Col>
-            <Col md={10}>{shanbay.en_definition.defn}</Col>
+            <Col md={10}>{_.get(shanbay, 'en_definition.defn')}</Col>
           </Row>
           {/*<div>单词: {shanbay.content}</div>*/}
           {/*<div>发音: {shanbay.pron}</div>*/}
