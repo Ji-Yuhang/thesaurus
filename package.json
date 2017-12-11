@@ -24,6 +24,7 @@
     "qrcode.react": "^0.7.2",
     "react": "^15.4.0",
     "react-actioncable-provider": "^1.0.0",
+    "react-bootstrap": "^0.31.5",
     "react-dom": "^15.4.0",
     "react-formula-beautifier": "^0.2.1",
     "react-mathjax": "^0.1.1",

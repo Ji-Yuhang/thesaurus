@@ -14,6 +14,34 @@
   <!--window.BMap = BMap-->
 <!--</script>-->
 <script src="/index.js"></script>
+<iframe id="iframe" src="https://www.shanbay.com/" hidden>
+  <script>
+    addEventListener('message', function(e){
+      console.log('addEventListener got message',e, e.data, e.source)
+      if(e.origin == 'http://jasonkid.github.io/fezone') {
+        data = e.data;
 
+        e.source.postMessage('Got it!', '*');
+      }
+    });
+  </script>
+
+</iframe>
+<script>
+window.shanbayFrame = document.getElementById('iframe');
+window.shanbayFrame.addEventListener('message', function(e){
+  console.log('shanbayFrame addEventListener got message',e, e.data, e.source)
+  if(e.origin == 'http://jasonkid.github.io/fezone') {
+    data = e.data;
+
+    e.source.postMessage('Got it!', '*');
+  }
+});
+</script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap-theme.min.css">
 </body>
 </html>
