@@ -91,7 +91,7 @@ class Home extends React.Component {
       
     }
     render() {
-        const {words,showSelect,showFilter,showLearn} = this.state;
+        const {words,showSelect,showFilter,showLearn, unknownWords} = this.state;
         return (
             <div >
                 <div >
@@ -122,7 +122,7 @@ class Home extends React.Component {
                 {
                     showLearn ? <LearnWordList 
                         onUnknownWordsChange={this.onUnknownWordsChange}
-                        words={this.state.words}
+                        words={this.state.unknownWords}
                     /> : null
                 }
                 

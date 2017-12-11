@@ -35,6 +35,7 @@ class SelectStudyWords extends React.Component {
     onWordsChange = (e)=> {
         let value = e.target.value
         let words = value.split("\n")
+        words = _.map(words, (w)=> _.replace(_.trim(w), ',', ''))
         console.log('onWordsChange',value, words)
         
         this.setState({
