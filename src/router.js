@@ -3,6 +3,10 @@ import { Router, Route } from 'dva/router';
 // import IndexPage from './routes/IndexPage';
 // import RepairOrder from './routes/RepairOrder';
 import Thesaurus from './routes/Thesaurus';
+import SelectStudyWords from './routes/SelectStudyWords';
+import Home from './routes/Home';
+
+
 import { connect } from 'dva';
 // import MainLayout from "./components/MainLayout/MainLayout";
 //
@@ -43,7 +47,12 @@ import { connect } from 'dva';
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
-      <Route path="/" component={Thesaurus} />
+      <Route path="/" component={Home} />
+      <Route path="/thesaurus" component={Thesaurus} />
+
+      <Route path="/select" component={SelectStudyWords} />
+
+      
       {/*<Route path="/customer_service" component={emptyComponent} />*/}
       {/*<Route path="/manage" component={emptyComponent} />*/}
       {/*<Route path="/payment" component={emptyComponent} />*/}

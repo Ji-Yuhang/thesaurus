@@ -6,6 +6,8 @@ import {
   Button, ButtonGroup, Col, ControlLabel, FormControl, FormGroup, Glyphicon, ProgressBar, Row,
   Well
 } from 'react-bootstrap';
+import ShanbayView from './ShanbayView';
+
 const Words = require('../files/queue_collins_1.json')
 const ThesaurusData = require('../files/thesaurus.json')
 const ShanbayData = require('../files/shanbay.json')
@@ -16,11 +18,11 @@ class Thesaurus extends React.Component {
     super(props);
     this.state = {}
     const list1 = require('../files/list_1.json');
-    console.log('list1', list1);
+    console.log('list1', this,list1);
     let json = localStorage.getItem('shanbayStore')
     let groupsIndex = 0
     let currentGroup = _.chunk(list1,7)[groupsIndex]
-    let testMode = true
+    let testMode = false
     let testShowAnswer = false
     let currentTestWord = _.sample(currentGroup)
     // currentTestWord: _.sample(currentGroup)
@@ -385,7 +387,10 @@ class Thesaurus extends React.Component {
       <div>
         <div>
           {
-            showAnswer ? this.renderShanbay(): this.renderQuestion()
+            // showAnswer ? this.renderShanbay(): this.renderQuestion()
+            showAnswer ? <ShanbayView shanbay={this.state.shanbay}/>: this.renderQuestion()
+            
+            
           }
 
         </div>
