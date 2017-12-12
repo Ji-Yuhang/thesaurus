@@ -18,7 +18,7 @@ import SelectStudyWords from './SelectStudyWords';
 import ShanbayView from './ShanbayView';
 
 import {getShanbay as apiGetShanbay} from '../services/ShanbayService';
-const ThesaurusData = require('../files/thesaurus.json')
+var ThesaurusData = require('../files/thesaurus.json')
 
 class LearnOneWord extends React.Component {
     constructor(props) {
@@ -41,7 +41,14 @@ class LearnOneWord extends React.Component {
         const {word, shanbay} = props
         // let {currentWord } = this.state
         const currentThesaurus = _.get(ThesaurusData, word);
-        const thesaurusWords = _.flattenDeep(_.values(currentThesaurus));
+        let thesaurusWords = _.flattenDeep(_.values(currentThesaurus));
+        thesaurusWords = _.map(thesaurusWords, (w) => {
+            if (_.includes('(') && _.includes(')')) {
+                // just like "silence (informal)"
+                w = _.replace(w, /\s\(.*/,''); 
+            }
+            return w
+        })
         reviewList = _.flatten(_.map(thesaurusWords, w => [word, w]))
         console.log('thesaurusWords',this, currentThesaurus, reviewList)
         let reviewIndex = 0
@@ -56,6 +63,7 @@ class LearnOneWord extends React.Component {
                 reviewList,
                 reviewIndex,
                 reviewWord,
+                shanbay,
             })
         } else {
             this.state = {
@@ -104,6 +112,13 @@ class LearnOneWord extends React.Component {
                 shanbay: null,
             }, ()=> this.getShanbay(nextReviewWord))
             console.log("go to next review word", this)
+            if (!nextReviewWord) {
+                // TODO: have reach last
+                if (this.props.reachEnd){
+                    this.props.reachEnd();
+
+                }
+            }
         }
         this.setState({
             showAnswer: !showAnswer,
@@ -140,7 +155,7 @@ class LearnOneWord extends React.Component {
                     <Row>
                       
                         <Col md={6}>
-                        <Button bsStyle="primary" bsSize="small" block onClick={this.showAnswer}>{showAnswer ? '下一个学习单词' : '查看解释'}</Button>
+                        <Button bsStyle="primary" bsSize="small" block onClick={this.showAnswer}>{showAnswer && reviewWord ? '下一个学习单词' : (reviewWord ? '查看解释' : '当前单词同义词已结束，跳转到下一个主要的单词')}</Button>
 
                         </Col>
                     </Row>

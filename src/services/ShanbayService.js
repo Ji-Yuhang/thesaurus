@@ -2,19 +2,28 @@ import * as api from '../utils/api';
 // export async function getShanbay(params) {
 //     return api.post(`/api/admin/v1/users/sign_in`,params);
 // }
-
-let json = localStorage.getItem('shanbayStore')
-let shanbayStore = {}
+function saveToLocalStore(){
+  localStorage.setItem('shanbayStore', JSON.stringify(shanbayStore))
+}
+var shanbayStoreJson = localStorage.getItem('shanbayStore')
+var shanbayStore = null
 try {
-    shanbayStore = JSON.parse(json)
+    if (!shanbayStoreJson){
+      shanbayStore = {}      
+      saveToLocalStore();
+    } else {
+      shanbayStore = JSON.parse(shanbayStoreJson)      
+    }
   } catch (e){
+    shanbayStore = {}
     console.log('parse JSON of localStorage[shanbayStore] error', e);
 
 }
+
+console.log('shanbayStore:', shanbayStoreJson, shanbayStore);
+
 const ShanbayData = require('../files/shanbay.json')
-function saveToLocalStore(){
-    localStorage.setItem('shanbayStore', JSON.stringify(shanbayStore))
-}
+
 export async function getShanbay(searchWord, callback) {
     // let {reviewWord, shanbayStore} = this.state;
     // searchWord = searchWord || reviewWord
@@ -63,14 +72,15 @@ export async function getShanbay(searchWord, callback) {
           console.log('getShanbay from api success,', shanbay)
 
           let word = searchWord || shanbay.content
+          if (callback){
+            callback(word, shanbay);
+        }
           shanbayStore[word] = shanbay
         //   this.setState({
         //     shanbay,
         //     shanbayStore
         //   }, this.saveToLocalStore)
-        if (callback){
-            callback(word, shanbay);
-        }
+        
             saveToLocalStore();
         })
         .catch((error)=>{

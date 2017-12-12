@@ -172,6 +172,16 @@ class LearnWordList extends React.Component {
         // reviewList
         // this.setCurrentWord(currentListIndex + 1)
       }
+
+      reachEnd = ()=> {
+        console.log('reachEnd, to next main word')
+        let {
+            learnWords,
+            currentIndex,
+            currentWord,
+        } = this.state
+        this.setCurrentWord(currentIndex + 1)
+      }
     render() {
         const {words} = this.props;
         const {unknownWords, currentTestWord,showAnswer,learnWords,currentIndex,currentWord} = this.state;
@@ -198,7 +208,7 @@ class LearnWordList extends React.Component {
                 {/* {
                     showAnswer ? <ShanbayView shanbay={this.state.shanbay}/> : <h2>{currentTestWord}</h2>
                 } */}
-                <LearnOneWord word={this.state.currentWord} shanbay={this.state.shanbay} />
+                <LearnOneWord word={this.state.currentWord} shanbay={this.state.shanbay} reachEnd={this.reachEnd}/>
                 <div>
                     <Row>
                         <Col md={2}>
